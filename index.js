@@ -7,10 +7,9 @@ let lastTime = Date.now(),
     fps = 60,
     frameTime = 1000 / fps;
 
-// after how many frames to recalculate game of life
 let isPaused = false;
 let cells = null;
-const updateFrequency = 30;
+const updateFrequency = 20;
 const cellSize = 20;
 
 const sleep = (ms) => {
@@ -179,7 +178,7 @@ async function update(i, ctx, cells, lastTime) {
     wait = Math.max(0, frameTime - (Date.now() - lastTime));
     lastTime = now;
     await sleep(wait);
-    return cells;
+    return [cells, lastTime];
 }
 
 async function startApplication() {
@@ -197,7 +196,7 @@ async function startApplication() {
             await sleep(1);
             continue;
         }
-        cells = await update(++i, ctx, cells, lastTime);
+        [cells, lastTime] = await update(++i, ctx, cells, lastTime);
     }
 }
 
@@ -225,17 +224,17 @@ document.querySelector("#stop").addEventListener("click", () => {
     isPaused = true;
 });
 
-document.querySelector("#randomize").addEventListener("click", () => {
+document.querySelector("#randomize").addEventListener("click", async () => {
     randomize(cells);
     if (isPaused) {
-        fillActiveCells(ctx, cells);
+        await update(updateFrequency, ctx, cells, lastTime);
     }
 });
 
-document.querySelector("#clear").addEventListener("click", () => {
+document.querySelector("#clear").addEventListener("click", async () => {
     clear(cells);
     if (isPaused) {
-        fillActiveCells(ctx, cells);
+        await update(updateFrequency, ctx, cells, lastTime);
     }
 });
 
