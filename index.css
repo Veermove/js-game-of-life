@@ -42,18 +42,18 @@ body {
 }
 
 .button {
-    padding: 1vw 2vw;
+    padding: 0.5em 1em;
     margin-left: 1em;
     margin-right: 1em;
     margin-bottom: 0.5em;
-    font-size: 1.6vw;
+    font-size: 1.8em;
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: none;
     color: #ffffff;
     background-color: #333333;
-    border: 0.2vw solid #333333;
-    border-radius: 0.5vw;
+    border: 0.1em solid #000000;
+    border-radius: 0.5em;
     transition:
         background-color 0.3s,
         color 0.3s;
